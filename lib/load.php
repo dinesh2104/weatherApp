@@ -4,6 +4,7 @@ global $__site_config;
 include_once $_SERVER['DOCUMENT_ROOT'] . '/PhpSdk/PlayFabSDK/PlayFabHttp.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/PhpSdk/PlayFabSDK/PlayFabClientApi.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/PhpSdk/PlayFabSDK/PlayFabAuthenticationApi.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PhpSdk/PlayFabSDK/PlayFabDataApi.php';
 
 function customAutoLoader($class)
 {

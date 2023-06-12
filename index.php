@@ -21,15 +21,32 @@ if (UserSession::ensureLogin() == false) {
 </head>
 
 <body>
+    <button class="logout"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+        </svg><a href="/logout.php">Logout</a></button>
     <div class="wrapper">
+
         <header><i class='bx bx-left-arrow-alt'></i>Weather App</header>
+
         <section class="input-part">
             <p class="info-txt"></p>
             <div class="content">
                 <input type="text" spellcheck="false" placeholder="Enter city name" required>
                 <div class="separator"></div>
                 <button>Get Device Location</button>
-            </div>
+
+                <div class="prev-data">
+                    <header>Previous Search</header>
+                    <?php
+                    $i = 1;
+                    $data = (array)Weather::getDetails();
+                    foreach ($data as $d) {
+                        echo "<p class='prev-info'>$i: $d</p>";
+                        $i++;
+                    }
+                    ?>
+                </div>
         </section>
         <section class="weather-part">
             <img src="" alt="Weather Icon">

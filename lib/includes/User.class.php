@@ -16,7 +16,8 @@ class User
             "Email" => $email,
             "Password" => $password,
             "Username" => $username,
-            "DisplayName" => $username
+            "DisplayName" => $username,
+            "InfoRequestParameters" => ["GetPlayerProfile" => true]
         ];
 
         try {
@@ -81,5 +82,14 @@ class User
             return 'Login failed: ' . $ex->getMessage();
             return null;
         }
+    }
+
+    public static function getUsername()
+    {
+        $ses = Session::get('SessionToken');
+        $req = (object)[];
+        $res = PlayFabClientApi::GetAccountInfo(get_config('TitleId'), $ses, $req);
+        $res = json_decode($res, true);
+        return $res['data']['AccountInfo']['Username'];
     }
 }

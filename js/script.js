@@ -10,12 +10,14 @@ arrowBack = wrapper.querySelector("header i");
 let api;
 
 inputField.addEventListener("keyup", e =>{
+
     if(e.key == "Enter" && inputField.value != ""){
         requestApi(inputField.value);
     }
 });
 
 locationBtn.addEventListener("click", () =>{
+
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
     }else{
@@ -26,6 +28,25 @@ locationBtn.addEventListener("click", () =>{
 function requestApi(city){
     api = `https://api.weatherapi.com/v1/current.json?q=${city}&key=495908698d71426eadc124522231106`;
     fetchData();
+}
+
+function sendData(d) {
+    // WARNING: For POST requests, body is set to null by browsers.
+    var data = new FormData();
+    data.append("location", d);
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function() {
+    if(this.readyState === 4) {
+        console.log(this.responseText);
+    }
+    });
+
+    xhr.open("POST", "https://weather.dinesh-kumar.site/add.php");
+    
+    xhr.send(data);
 }
 
 function onSuccess(position){
@@ -57,6 +78,7 @@ function weatherDetails(info){
     }else{
         console.log("inside");
         const city = info.location.name;
+        sendData(city);
         const country = info.location.country;
         const description = info.current.condition.text;
         const temp=info.current.temp_c; 
@@ -64,22 +86,6 @@ function weatherDetails(info){
         const humidity = info.current.humidity;
 
         wIcon.src=info.current.condition.icon;
-        // if(id == 800){
-        //     wIcon.src = "icons/clear.svg";
-        // }else if(id >= 200 && id <= 232){
-        //     wIcon.src = "icons/storm.svg";  
-        // }else if(id >= 600 && id <= 622){
-        //     wIcon.src = "icons/snow.svg";
-        // }else if(id >= 701 && id <= 781){
-        //     wIcon.src = "icons/haze.svg";
-        // }else if(id >= 801 && id <= 804){
-        //     wIcon.src = "icons/cloud.svg";
-        // }else if((id >= 500 && id <= 531) || (id >= 300 && id <= 321)){
-        //     wIcon.src = "icons/rain.svg";
-        // }
-
-        console.log(humidity);
-        
         weatherPart.querySelector(".temp .numb").innerText = Math.floor(temp);
         weatherPart.querySelector(".weather").innerText = description;
         weatherPart.querySelector(".location span").innerText = `${city}, ${country}`;
@@ -93,6 +99,7 @@ function weatherDetails(info){
 }
 
 arrowBack.addEventListener("click", ()=>{
+    location.reload();
     wrapper.classList.remove("active");
 });
 
